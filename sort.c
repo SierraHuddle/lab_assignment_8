@@ -1,3 +1,4 @@
+// Sierra Huddle
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,9 +30,58 @@ size_t Size(void* ptr)
 
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
-void mergeSort(int pData[], int l, int r)
-{
+void mergeSort(int pData[], int l, int r) {
+    if (l < r) {
+		// middle index
+        int m = l + (r - l) / 2;
+
+        // Sort the two halves
+        mergeSort(pData, l, m);
+        mergeSort(pData, m + 1, r);
+
+        // Merge the halves
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+      
+        int L[n1], R[n2];
+
+        // Copy data into L[] and R[]
+        for (int i = 0; i < n1; i++)
+            L[i] = pData[l + i];
+        for (int j = 0; j < n2; j++)
+            R[j] = pData[m + 1 + j];
+
+        // Merge arrays into pData
+        int i = 0, j = 0, k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                pData[k] = L[i];
+                i++;
+            } else {
+                pData[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        // remaining of L[], if there are any
+        while (i < n1) {
+            pData[k] = L[i];
+            i++;
+            k++;
+        }
+
+         // remaining of R[], if there are any
+        while (j < n2) {
+            pData[k] = R[j];
+            j++;
+            k++;
+        }
+    }
 }
+
+
 
 // parses input file to an integer array
 int parseData(char *inputFileName, int **ppData)
